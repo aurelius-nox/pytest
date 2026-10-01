@@ -103,3 +103,91 @@ tests/test_app.py:5: AssertionError
 FAILED tests/test_app.py::test_add - assert 5 == 6
 ========================= 1 failed, 1 passed in 0.05s =========================
 ```
+
+GITHub action
+
+YOUR FEDORA MACHINE
+
+pytest/
+│
+├── add.py
+├── tests/
+└── .git/
+│
+│ git push
+↓
+GITHUB
+│
+│ detects workflow
+↓
+GITHUB ACTIONS GitHub Actions = automation/orchestration system.
+│
+↓
+RUNNER Runner = the machine that actually executes the commands.
+│
+↓
+pytest
+│
+┌─┴─┐
+↓ ↓
+✅ ❌
+
+github action : "When code is pushed, create an environment, install our dependencies, and run pytest."
+Workflow
+│
+├── When should I run?
+│
+├── What machine should run it?
+│
+└── What commands should it execute?
+
+WHEN?
+↓
+push to GitHub
+
+MACHINE?
+↓
+GitHub-hosted runner
+
+DO:
+↓
+get repository
+↓
+setup Python
+↓
+install requirements
+↓
+run pytest
+
+pytest/
+├── .github/
+│ └── workflows/
+│ └── tests.yml
+├── add.py
+├── tests/
+├── requirements.txt
+└── ...
+
+in yml file:
+git push
+│
+▼
+GitHub Actions
+│
+▼
+Ubuntu runner
+│
+┌─────────┴─────────┐
+▼ ▼
+Checkout repository Set up Python
+│
+▼
+Install dependencies
+│
+▼
+Run pytest
+│
+┌──────┴──────┐
+▼ ▼
+✅ ❌
+passed failed
