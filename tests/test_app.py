@@ -1,4 +1,6 @@
-from add import add , multiply
+from add import add, multiply
+
+
 def test_add():
     a = 1
     b = 4

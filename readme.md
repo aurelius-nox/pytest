@@ -191,3 +191,25 @@ Run pytest
 ▼ ▼
 ✅ ❌
 passed failed
+
+Linting
+
+Tests ask:
+
+"Does the program behave correctly?"
+
+Linting asks more like:
+
+"Does the code follow certain code-quality/style rules and contain suspicious patterns?"
+
+             push
+               ↓
+        GitHub Actions
+               ↓
+        ┌──────┴──────┐
+        ↓             ↓
+      pytest         ruff (lint)
+        ↓             ↓
+        └──────┬──────┘
+               ↓
+             result
