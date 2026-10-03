@@ -213,3 +213,23 @@ Linting asks more like:
         └──────┬──────┘
                ↓
              result
+
+pytest
+→ "Does the code behave as expected?"
+
+Ruff
+→ "Does the code satisfy lint/style checks?"
+
+GitHub Actions
+→ "Automatically run these checks when something happens."
+
+Runner
+→ "The machine that actually executes them."
+
+requirements.txt
+→ tells the environment what Python packages it needs
+
+NOW CD
+
+make docker file
+docker build -t pytest-docker .
