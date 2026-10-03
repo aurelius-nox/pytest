@@ -39,5 +39,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Push Docker image
+      - name: Push Docker GHCR
         run: docker push ghcr.io/aurelius-nox/pytest:latest
