@@ -233,3 +233,133 @@ NOW CD
 
 make docker file
 docker build -t pytest-docker .
+change yml to make github actions read build
+
+Container Registry
+GitHub repository
+→ stores source code
+
+Container registry
+→ stores container images
+
+Right now our image is: pytest-docker:latest
+A registry needs to know where the image belongs.
+For GitHub Container Registry, the image name follows this general structure: ghcr.io/OWNER/IMAGE:TAG
+For your repository, that could be conceptually: ghcr.io/aurelius-nox/pytest:latest
+
+ghcr.io
+↓
+GitHub Container Registry
+
+aurelius-nox
+↓
+your GitHub account
+
+pytest
+↓
+image/repository name
+
+latest
+↓
+image tag/version
+
+credentials in CI (who is allowd to push in ghcr)
+GitHub Actions
+│
+│ secret/token
+↓
+GHCR
+│
+│ authenticated push
+↓
+Docker image stored
+
+login:
+docker login ghcr.io
+Username: aurelius-nox
+
+Then at:
+Password:
+do not enter your GitHub password. For GHCR command-line authentication, GitHub currently requires a Personal Access Token (classic) with the write:packages scope for pushing images.
+
+If you don't have such a token yet:
+
+Open GitHub's Personal access tokens → Tokens (classic) page.
+Create a token.
+Give it the write:packages scope. GitHub notes that the UI may also select repo; their docs recommend avoiding that broader permission when possible.
+Copy the token immediately—GitHub only shows it when created.
+Paste that token at the Docker Password: prompt.
+
+docker push ghcr.io/aurelius-nox/pytest:latest >push them
+
+now, wehave
+GitHub repository
+└── source code + tests + workflow
+
+GHCR
+└── Docker image
+└── pytest:latest
+
+login on yml>
+
+- name: Log in to GHCR
+  uses: docker/login-action@v3
+  with:
+  registry: ghcr.io
+  username: ${{ github.actor }}
+  password: ${{ secrets.GITHUB_TOKEN }}
+
+git push
+↓
+GitHub Actions starts
+↓
+Checkout repository
+↓
+Set up Python
+↓
+Install dependencies
+↓
+Ruff lint
+↓
+pytest
+↓
+Docker build
+↓
+Login to GHCR
+↓
+Push image
+
+                    git push
+                       │
+                       ▼
+              GitHub Actions starts
+                       │
+                       ▼
+              Checkout repository
+                       │
+                       ▼
+                 Setup Python
+                       │
+                       ▼
+              Install dependencies
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+         Ruff lint            Pytest
+             │                   │
+             └─────────┬─────────┘
+                       ▼
+                Docker build
+                       │
+                       ▼
+                 Login to GHCR
+                       │
+                       ▼
+              Push Docker image
+                       │
+                       ▼
+          ghcr.io/aurelius-nox/pytest
+
+CI: every push automatically checks the code.
+
+CD: after the checks pass, the Docker image is automatically published.
